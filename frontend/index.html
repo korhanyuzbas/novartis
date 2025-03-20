@@ -1,0 +1,98 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novartis Products</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Novartis Products</h1>
+        </div>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn" id="login-btn">Login</a>
+            <a href="register.html" class="btn" id="register-btn">Register</a>
+            <a href="#" class="btn hidden" id="logout-btn">Logout</a>
+            <a href="dashboard.html" class="btn hidden" id="dashboard-btn">Dashboard</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search by name or ingredient">
+                <button id="search-btn">Search</button>
+            </div>
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="therapeutic-area-filter">Therapeutic Area:</label>
+                    <select id="therapeutic-area-filter">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="region-filter">Region:</label>
+                    <select id="region-filter">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by">
+                        <option value="name">Name</option>
+                        <option value="ingredient">Ingredient</option>
+                        <option value="therapeutic_area">Therapeutic Area</option>
+                        <option value="created_date">Creation Date</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-order">Order:</label>
+                    <select id="sort-order">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <button id="apply-filters">Apply Filters</button>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <div id="products-list"></div>
+            <div class="pagination">
+                <button id="prev-page" disabled>Previous</button>
+                <span id="page-info">Page 1</span>
+                <button id="next-page">Next</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Novartis.</p>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+            loadProducts();
+            loadTherapeuticAreas();
+            loadRegions();
+
+            document.getElementById('search-btn').addEventListener('click', applyFilters);
+            document.getElementById('apply-filters').addEventListener('click', applyFilters);
+            document.getElementById('prev-page').addEventListener('click', () => changePage(-1));
+            document.getElementById('next-page').addEventListener('click', () => changePage(1));
+
+            document.getElementById('logout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
+            });
+        });
+    </script>
+</body>
+</html>
